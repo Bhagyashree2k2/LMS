@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create License</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Add any additional styles or scripts as needed -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 40px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Create License</h2>
+                
+                <!-- Display Flash Messages -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ messages[0] }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <form method="post" action="{{ url_for('create_license') }}">
+                    <!-- Add your form fields for license creation -->
+                    <!-- Example: -->
+                    
+                    <div class="form-group">
+                        <label for="vendor_name">Vendor:</label>
+                        <select class="form-control" name="vendor_name" id="vendorDropdown"  onchange="loadLicenseNames()" required> 
+                                {% if vendors %}
+                                {% for vendor in vendors %}
+                                <option value="{{ vendor }}">{{ vendor}}</option>
+                                {% endfor %}
+                                {% endif %}   
+                        </select>
+                    </div>
+                    <div class="form-group">
+                    <!--<form method="post" action="{{ url_for('register_vendor') }}"></form>-->
+                        
+                            <a href="{{ url_for('register_vendor') }}" >
+                                Register New Vendor
+                            </a>
+                        
+                    
+                </div>
+                <div class="form-group">
+                    <label for="license_name">License Name:</label>
+                    <select class="form-control" name="license_name" id="licenseDropdown" required>
+                        <!-- Licenses will be populated dynamically using JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="license_model">License Model:</label>
+                    <select class="form-control" name="license_model" id="licenseModel" required onchange="toggleRenewCostField()">
+                        <option value="onetime">One-time</option>
+                        <option value="subscription">Subscription</option>
+                    </select>
+                </div>
+                    <div class="form-group">
+                        <label for="license_type">License Type:</label>
+                        <select class="form-control" name="license_type" required>
+                            <option value="device">Device License</option>
+                            <option value="network">Network License</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" class="form-control" name="price" step="0.01" required>
+                    </div>
+                    <div class="form-group" id="renewCostField" style="display: none;">
+                        <label for="renew_cost">Renew Cost</label>
+                        <input type="number" class="form-control" name="renew_cost" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="owner">Owner:</label>
+                        <input type="text" class="form-control" name="owner" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user">User:</label>
+                        <input type="text" class="form-control" name="user" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner">Project:</label>
+                        <input type="project" class="form-control" name="project" required>
+                    </div> 
+                   
+                    
+                    <!-- Add other form fields as needed -->
+                    <button type="submit" class="btn btn-primary btn-block">Create License</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+            <script>
+                function loadLicenseNames() {
+                    var vendorDropdown = document.getElementById("vendorDropdown");
+                    var selectedVendor = vendorDropdown.value;
+            
+                    // Assuming you have an endpoint in your backend to fetch license names based on the vendor
+                    var url = "/get_license_names?vendor=" + selectedVendor;
+            
+                    // Clear previous options
+                    var licenseNameDropdown = document.getElementById("licenseDropdown");
+                    licenseNameDropdown.innerHTML = "";
+            
+                    // Fetch license names from the server
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(function(licenseName) {
+                                var option = document.createElement("option");
+                                option.value = licenseName;
+                                option.text = licenseName;
+                                licenseNameDropdown.add(option);
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            
+                function toggleRenewCostField() {
+                    var licenseModelDropdown = document.getElementById("licenseModel");
+                    var renewCostField = document.getElementById("renewCostField");
+                    
+                    // If the selected license model is "subscription", display the renew cost field
+                    if (licenseModelDropdown.value === "onetime") {
+                        renewCostField.style.display = "block";
+                    } else {
+                        // Otherwise, hide the renew cost field
+                        renewCostField.style.display = "none";
+                    }
+                }
+            
+                // Call the function initially to set the initial visibility state
+                toggleRenewCostField();
+            </script>
+            
+            
+</body>
+</html>

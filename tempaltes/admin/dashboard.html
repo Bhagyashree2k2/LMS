@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #836FFF;
+            color: #fff;
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+        .list-group-item {
+            border: none;
+            border-radius: 0;
+        }
+        .btn-logout {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ messages[0] }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endwith %}
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Welcome to Admin Dashboard</h2>
+                         <!-- Display Flash Messages -->
+                
+                    </div>
+                    <div class="card-body">
+                        <!-- Option Menus -->
+                        <div class="list-group">
+                            <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action">Add User</a>
+                            <a href="{{ url_for('create_license') }}" class="list-group-item list-group-item-action">Create License</a>
+                            <a href="{{ url_for('show_adminlicense') }}" class="list-group-item list-group-item-action">Display Licenses</a>
+                            
+
+                            <!-- Logout Button -->
+                            <a href="{{ url_for('logout_admin') }}" class="list-group-item list-group-item-action">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <!-- Logo -->
+    <div style="position: absolute; top: 20px; left: 20px;">
+        <img src="../images/logo.jpg" alt="Logo" width="100" height="100">
+    </div>
+</body>
+</html>

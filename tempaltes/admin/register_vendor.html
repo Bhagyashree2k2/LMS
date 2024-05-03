@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Registration</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        /* Style for form container */
+        .form-container {
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for form fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Style for add more button */
+        .add-more-btn {
+            margin-top: 10px;
+        }
+
+        .license-input {
+            margin-bottom: 10px; /* Adjust this value to increase or decrease the spacing */
+        }
+
+        footer {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="logo.jpg" alt="Logo" width="50" height="50">
+        </a>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <h2 class="text-center mb-4">Vendor Registration</h2>
+                    <!-- Add your form fields for vendor registration -->
+                    <form method="post" action="{{ url_for('register_vendor') }}">
+                        <div class="form-group">
+                            <label for="vendor_name">Vendor Name:</label>
+                            <input type="text" class="form-control" name="vendor_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="website_link">Website URL:</label>
+                            <input type="url" class="form-control" name="website_link" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="license_name">License(s):</label>
+                            <!-- Allow users to input multiple licenses -->
+                            <input type="text" name="license_name" id="license_name" class="form-control" placeholder="Enter License Name" required>
+
+                            <!-- Allow users to add more license fields dynamically -->
+                            <button type="button" class="btn btn-sm btn-primary add-more-btn" onclick="addLicenseField()">Add More</button>
+                        </div>
+                        <br>
+                        <!-- Add other form fields as needed -->
+                        <button type="submit" class="btn btn-primary btn-block">Register Vendor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <!-- Custom JavaScript for adding dynamic license fields -->
+    <script>
+        // Function to add more license fields dynamically
+        function addLicenseField() {        
+            const licenseField = document.createElement('input');
+            licenseField.type = 'text';
+            licenseField.classList.add('form-control', 'license-input');
+            licenseField.name = 'license_name';
+            licenseField.required = true;
+            const addButton = document.querySelector('.btn-primary');
+            addButton.parentNode.insertBefore(licenseField, addButton);
+        }
+    </script>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Copyright Footer -->
+    <footer>
+        <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+        <p>This website is for internal use only and is subject to the terms of service and license agreements.</p>
+        </footer>
+
+    <!-- JavaScript to dynamically position footer -->
+    <script>
+        function adjustFooterPosition() {
+            const body = document.body;
+            const footer = document.querySelector('footer');
+            const footerHeight = footer.offsetHeight;
+            const bodyHeight = body.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+            }
+        }
+
+        window.addEventListener('load', adjustFooterPosition);
+        window.addEventListener('resize', adjustFooterPosition);
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Vendors</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            flex: 1;
+            margin-top: 50px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+         <!-- Logo -->
+         <a class="navbar-brand" href="#">
+            <img src="../images/logo.jpg" alt="Logo" width="50" height="50">
+        </a>
+        <h2 class="mt-4 mb-4"><center>Vendors List</center></h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Vendor Name</th>
+                    <th>Email</th>
+                    <th>Website</th>
+                    <th>License Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vendor in vendors %}
+                <tr>
+                    <td>{{ vendor.vendor_name }}</td>
+                    <td>{{ vendor.email }}</td>
+                    <td>{{ vendor.website_link }}</td>
+                    <td>{{ vendor.license_name }}</td>
+                    <td class="btn-container">
+                        <a href="{{ url_for('edit_vendor', vendor_id=vendor.id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <form method="post" action="{{ url_for('delete_vendor', vendor_id=vendor.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this vendor?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       
+    </div>
+
+    <!-- Bootstrap JS and jQuery (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Copyright Footer -->
+    <footer>
+        <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+        <p>This website is for internal use only and is subject to the terms of service and license agreements.</p>
+        </footer>
+
+    <!-- JavaScript to dynamically position footer -->
+    <script>
+        function adjustFooterPosition() {
+            const body = document.body;
+            const footer = document.querySelector('footer');
+            const footerHeight = footer.offsetHeight;
+            const bodyHeight = body.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+            }
+        }
+
+        window.addEventListener('load', adjustFooterPosition);
+        window.addEventListener('resize', adjustFooterPosition);
+    </script>
+</body>
+</html>
