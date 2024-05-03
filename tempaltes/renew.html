@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Renew License</title>
+    <!-- Add your additional styles or scripts here -->
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            margin-top: 60px;
+        }
+
+        .panel {
+            border: 1px solid #ddd; /* Add a subtle border */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        }
+
+        .panel-heading {
+            background-color: #f8f8f8; /* Grey background */
+            color: #000000; /* Black color */
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ddd; /* Light underline */
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #000000; /* Black color */
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        /* Add more custom styles as needed */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>License Renewal</h2>
+                    </div>
+                    <div class="panel-body">
+
+                        <!-- Display license details here -->
+                        <div class="form-group">
+                            <label for="licenseID">License ID:</label>
+                            <p>{{ license.l_id }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="EmpId">Employee ID:</label>
+                            <p>{{ license.emp_id }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="licenseName">License Name:</label>
+                            <p>{{ license.license_name }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareName">Software Name:</label>
+                            <p>{{ license.software_name }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="technicalLead">Technical Lead:</label>
+                            <p>{{ license.technical_lead }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchaseDate">Purchase Date:</label>
+                            <p>{{ license.purchase_date }}</p>
+                        </div>
+
+                        <!-- Add more details as needed -->
+
+                        <form method="POST" action="{{ url_for('dashboard') }}">
+                            <!-- Add any additional form fields as needed -->
+
+                            <!-- Renew Button -->
+                            <button type="submit" class="btn btn-primary btn-block">Renew License</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

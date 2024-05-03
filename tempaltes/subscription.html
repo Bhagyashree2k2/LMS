@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Details</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff; /* Bootstrap primary color for headings */
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff; /* Bootstrap primary color for buttons */
+            border: none;
+            color: #ffffff; /* Bootstrap light color for text on dark background */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Subscription Details</h2>
+        
+        {% if license_details %}
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text"><strong>License Name:</strong> {{ license_details.license_name }}</p>
+                    <p class="card-text"><strong>Software Name:</strong> {{ license_details.software_name }}</p>
+                    <p class="card-text"><strong>Price:</strong> {{ license_details.price / 2 }}</p>
+                    <p class="card-text"><strong>License Type:</strong> Subscription</p>
+                    <p class="card-text" id="currentDate"></p>
+                    <p class="card-text" id="renewDate"></p>
+                    
+                    <form action="{{ url_for('subscription_payment', license_id=license_details.id) }}" method="post">
+                        <div class="form-group">
+                            <label for="technical_lead"><strong>Technical Lead:</strong></label>
+                            <input type="text" class="form-control" id="technical_lead" name="technical_lead" required>
+                        </div>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <p>Subscription not found.</p>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Display current date and renew date dynamically
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentDateElement = document.querySelector('#currentDate');
+            var renewDateElement = document.querySelector('#renewDate');
+            
+            var currentDate = new Date();
+            var renewDate = new Date(currentDate);
+            renewDate.setMonth(renewDate.getMonth() + 6); // Adding six months for subscription renewal
+
+            currentDateElement.innerText = 'Current Date: ' + formatDate(currentDate);
+            renewDateElement.innerText = 'Renew Date: ' + formatDate(renewDate);
+        });
+
+        // Function to format date as 'YYYY-MM-DD'
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var day = ('0' + date.getDate()).slice(-2);
+            return year + '-' + month + '-' + day;
+        }
+    </script>
+</body>
+</html>

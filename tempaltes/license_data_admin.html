@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License Data</title>
+</head>
+<body>
+    <h1>Enter License Data</h1>
+    <form action="/license_data" method="post"> <!-- Corrected form action -->
+        <label for="emp_id">Employee ID:</label>
+        <input type="text" id="emp_id" name="emp_id" required><br><br>
+
+        <label for="license_name">License Name:</label>
+        <input type="text" id="license_name" name="license_name"><br><br>
+
+        <label for="software_name">Software Name:</label>
+        <input type="text" id="software_name" name="software_name" required><br><br>
+
+        <label for="technical_lead">Technical Lead:</label>
+        <input type="text" id="technical_lead" name="technical_lead" required><br><br>
+
+        <label for="renew_date">Renew Date:</label>
+        <input type="date" id="renew_date" name="renew_date"><br><br>
+
+        <label for="purhase_date">Purchase Date:</label>
+        <input type="date" id="purchase_date" name="purchase_date"><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

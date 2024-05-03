@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom CSS here if needed -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff; /* Bootstrap primary color for headings */
+        }
+
+        .payment-methods {
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff; /* Bootstrap primary color for buttons */
+            border: none;
+            color: #ffffff; /* Bootstrap light color for text on dark background */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Choose Payment Method</h2>
+        
+        <form action="{{ url_for('subscription_invoice', license_id=license_id) }}" method="post">
+
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <button type="submit" name="payment_method" value="subscription">Pay with Credit Card</button>
+                </div>
+            </div>
+        </form>
+        
+        <form action="{{ url_for('subscription_invoice',license_id=license_id) }}" method="post">
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <button type="submit" name="payment_method" value="subscription">Pay with PayPal</button>
+                </div>
+            </div>
+        </form>
+        
+            <!-- Add more payment methods here if needed -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function redirectToInvoice(type) {
+            if (type === 'one_time') {
+                window.location.href = '/onetime_invoice/{{ license_id }}'; // Redirect to the one-time invoice page
+            } else if (type === 'subscription') {
+                window.location.href = '/subscription_invoice'; // Redirect to the subscription invoice page
+            }
+            // Add more conditions for other payment methods if needed
+        }
+    </script>
+</body>
+</html>

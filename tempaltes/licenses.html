@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Licenses</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+
+        .card-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: black;
+        }
+
+        .card-text {
+            text-align: center;
+            font-weight: bold; /* Make software name bold */
+        }
+
+        .custom-control-label {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-body {
+            height: 200px; /* Set a fixed height for the card body */
+            overflow: hidden; /* Hide overflow content */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Available Licenses</h1>
+        <div class="row">
+            {% if admin_licenses %}
+                {% for license in admin_licenses %}
+                    <div class="col-md-6 col-sm-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ license.license_name }}</h5>
+                                <p class="card-text text-muted">Software: {{ license.software_name }}</p>
+                                <div class="btn-container">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="one_time{{ license.id }}" name="license_type" value="one_time" class="custom-control-input" onchange="updateButtonStatus('{{ license.id }}')">
+                                        <a href="{{ url_for('onetime_purchase', license_id=license.id) }}" class="btn btn-primary mt-2" id="detailsButton{{ license.id }}" disabled>One Time Purchase</a>
+                                    </div>
+
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="subscription{{ license.id }}" name="license_type" value="subscription" class="custom-control-input" onchange="updateButtonStatus('{{ license.id }}')">
+                                        <a href="{{ url_for('subscription', license_id=license.id) }}" class="btn btn-primary mt-2" id="detailsButton{{ license.id }}" disabled>Subscription</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="col-12">No licenses available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function updateFormAction(route, licenseId) {
+            document.getElementById('purchaseForm').action = `/${route}/${licenseId}`;
+            document.getElementById('selectedLicenseId').value = licenseId;
+        }
+
+        function submitForm(licenseId) {
+            updateFormAction('purchase', licenseId);
+            document.getElementById('purchaseForm').submit();
+        }
+
+        function updateButtonStatus(licenseId) {
+            var oneTimeRadio = document.getElementById('one_time' + licenseId);
+            var subscriptionRadio = document.getElementById('subscription' + licenseId);
+            var detailsButton = document.getElementById('detailsButton' + licenseId);
+
+            detailsButton.disabled = !(oneTimeRadio.checked || subscriptionRadio.checked);
+        }
+    </script>
+</body>
+</html>

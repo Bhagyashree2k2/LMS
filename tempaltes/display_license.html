@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Licenses</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+   
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .btn-custom {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #138496;
+        }
+        .alert-custom {
+            background-color: #28a745;
+            color: #fff;
+            border-color: #218838;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
+ 
+</head>
+<body>
+ 
+<div class="container">
+    <h2 class="text-center mb-4">Hello {{ username }}</h2>
+    <!-- Filtering form -->
+    <form id="filterForm">
+        <table class="table table-bordered table-striped" id="licensesTable">
+            <thead>
+            <tr>
+                <th>License ID</th>
+                <th>License Name</th>
+                <th>
+                    Price
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-icon btn-custom dropdown-toggle" type="button" id="priceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="priceDropdown">
+                            <div class="form-group">
+                                <label for="minPrice">Min Price:</label>
+                                <input type="number" class="form-control" id="minPrice">
+                            </div>
+                            <div class="form-group">
+                                <label for="maxPrice">Max Price:</label>
+                                <input type="number" class="form-control" id="maxPrice">
+                            </div>
+                            <button type="button" class="btn btn-custom" onclick="sortPrice()">Apply Filter</button>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    Vendor
+                    <div class="dropdown">
+                        <!-- Vendor filter dropdown button -->
+                        <button class="btn btn-sm btn-icon btn-custom" type="button" id="vendorFilterBtn" onclick="toggleVendorDropdown()">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <div class="dropdown-menu" id="vendorDropdown" aria-labelledby="vendorFilterBtn">
+                            <select name="vendor" id="vendorSelect" onchange="applyFilterVendor()">
+                                <option value="">All</option>
+                                {% for vendor in vendors %}
+                                    <option value="{{ vendor }}">{{ vendor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </th>
+               
+                <th>
+                    License Model
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-icon btn-custom" type="button" id="licenseModelFilterBtn" onclick="toggleLicenseModelDropdown()">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <div class="dropdown-menu" id="licenseModelDropdown" aria-labelledby="licenseModelFilterBtn">
+                            <select name="license_model" id="licenseModelSelect" onchange="applyFilterLicenseModel()">
+                                <option value="">All</option>
+                                <option value="onetime">Onetime</option>
+                                <option value="subscription">Subscription</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                    </div>
+                </th>
+                <th>License Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for license in licenses %}
+                <tr>
+                    <td>{{ license.license_id }}</td>
+                    <td>{{ license.license_name }}</td>
+                    <td>{{ license.price }}</td>
+                    <td>{{ license.vendor_name }}</td>
+                    <td>{{ license.license_model }}</td>
+                    <td>{{ license.license_type }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+ 
+        </table>
+       
+    </form>
+</div>
+ 
+<!-- Bootstrap JS and Popper.js -->
+
+<!-- Logo -->
+<div style="position: absolute; top: 20px; left: 20px;">
+    <img src="logo.jpg" alt="Logo" width="100" height="100">
+</div>
+ 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+   
+<script>
+    function downloadPDF() {
+        var doc = new jsPDF();
+ 
+        var specialElementHandlers = {
+            '#downloadPDF': function(element, renderer){
+                return true;
+            },
+            '.controls': function(element, renderer){
+                return true;
+            }
+        };
+ 
+        doc.fromHTML($('.zima').get(0), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+ 
+        doc.save('Generated.pdf');
+    }
+ 
+    function applyFilterVendor() {
+        var selectedVendor = document.getElementById("vendorSelect").value;
+        var table = document.getElementById("licensesTable");
+        var rows = table.getElementsByTagName("tr");
+ 
+        for (var i = 1; i < rows.length; i++) {
+            var vendorCell = rows[i].getElementsByTagName("td")[3];
+            var vendor = vendorCell.textContent.trim();
+            var vendorCondition = selectedVendor === "" || vendor === selectedVendor;
+ 
+            if (vendorCondition) {
+                rows[i].style.display = ""; // Display the row
+            } else {
+                rows[i].style.display = "none"; // Hide the row
+            }
+        }
+    }
+ 
+    function toggleVendorDropdown() {
+        var dropdown = document.getElementById("vendorDropdown");
+        if (dropdown.classList.contains("show")) {
+            dropdown.classList.remove("show");
+        } else {
+            dropdown.classList.add("show");
+        }
+    }
+ 
+    function applyFilterType() {
+        var selectedLicenseType = document.getElementById("license_type").value;
+        var table = document.getElementById("licensesTable");
+        var rows = table.getElementsByTagName("tr");
+ 
+        for (var i = 1; i < rows.length; i++) {
+            var licenseTypeCell = rows[i].getElementsByTagName("td")[4];
+            var licenseType = licenseTypeCell.textContent.trim();
+            var licenseTypeCondition = selectedLicenseType === "" || licenseType === selectedLicenseType;
+ 
+            if (licenseTypeCondition) {
+                rows[i].style.display = ""; // Display the row
+            } else {
+                rows[i].style.display = "none"; // Hide the row
+            }
+        }
+    }
+ 
+    function sortPrice() {
+        var minPrice = parseFloat(document.getElementById("minPrice").value) || 0;
+        var maxPrice = parseFloat(document.getElementById("maxPrice").value) || Number.MAX_VALUE;
+        var table = document.getElementById("licensesTable");
+        var rows = table.getElementsByTagName("tr");
+ 
+        for (var i = 1; i < rows.length; i++) {
+            var priceCell = rows[i].getElementsByTagName("td")[2];
+            var price = parseFloat(priceCell.textContent);
+ 
+            if (price >= minPrice && price <= maxPrice) {
+                rows[i].style.display = ""; // Display the row
+            } else {
+                rows[i].style.display = "none"; // Hide the row
+            }
+        }
+    }
+ 
+    function applyFilterLicenseModel() {
+        var selectedLicenseModel = document.getElementById("licenseModelSelect").value;
+        var table = document.getElementById("licensesTable");
+        var rows = table.getElementsByTagName("tr");
+   
+        for (var i = 1; i < rows.length; i++) {
+            var licenseModelCell = rows[i].getElementsByTagName("td")[4]; // Assuming license model is in the fifth column
+            var licenseModel = licenseModelCell.textContent.trim();
+            var licenseModelCondition = selectedLicenseModel === "" || licenseModel === selectedLicenseModel;
+   
+            if (licenseModelCondition) {
+                rows[i].style.display = ""; // Display the row
+            } else {
+                rows[i].style.display = "none"; // Hide the row
+            }
+        }
+    }
+   
+    function toggleLicenseModelDropdown() {
+        var dropdown = document.getElementById("licenseModelDropdown");
+        if (dropdown.classList.contains("show")) {
+            dropdown.classList.remove("show");
+        } else {
+            dropdown.classList.add("show");
+        }
+    }
+   
+</script>
+</body>
+</html>
