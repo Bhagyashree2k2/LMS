@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+        .navbar {
+            background-color: #872341;
+        }
+        .navbar-brand {
+            color: #fff;
+        }
+        h2{
+            color: #872341;
+        }
+        .dropdown-menu {
+            background-color: #FF90C2;
+        }
+        .dropdown-item {
+            color: #fff;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #872341;
+            color: #fff;
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+        .list-group-item {
+            border: none;
+            border-radius: 0;
+        }
+        .btn-logout {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+        }
+        footer {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="Logo" width="50" height="50">
+            </a>
+
+            <!-- Dropdown for Logout and Edit Profile -->
+            <div class="dropdown ml-auto">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{url_for('admin_profile')}}">Edit Profile</a>
+                    <a class="dropdown-item" href="{{ url_for('logout_admin') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ messages[0] }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endwith %}
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Option Menus -->
+                        <div class="d-flex justify-content-between">
+                            <div class="dropdown">
+                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="vendorManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Vendor Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="vendorManagementDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('register_vendor') }}">Register Vendor</a>
+                                    <a class="dropdown-item" href="{{ url_for('show_vendor',) }}">Show Vendors</a>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="licenseManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    License Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="licenseManagementDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('create_license') }}">Create License</a>
+                                    <a class="dropdown-item" href="{{ url_for('show_adminlicense') }}">Display License</a>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="userManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    User Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="userManagementDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('register') }}">Add User</a>
+                                    <a class="dropdown-item" href="{{ url_for('display_user') }}">Display Users</a>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reports
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="reportsDropdown">
+                                    <a class="dropdown-item" href="#">View Reports</a>
+                                    <a class="dropdown-item" href="#">Upcoming Renewal</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Message -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h2>Welcome to License Management System</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <!-- Copyright Footer -->
+    <footer>
+        <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+        <p>This website is for internal use only and is subject to the terms of service and license agreements.</p>
+        </footer>
+</body>
+</html>
 
