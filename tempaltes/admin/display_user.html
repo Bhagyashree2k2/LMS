@@ -1,45 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-brand {
+            color: #fff;
+        }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Set fixed width for columns */
+        #usersTable th:nth-child(1),
+        #usersTable td:nth-child(1){
+            width: 5%; /* Adjust as needed */
+            max-width: 5%; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #usersTable th:nth-child(2),
+        #usersTable td:nth-child(2) {
+            width: 10%; /* Adjust as needed */
+            max-width: 10%; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #usersTable th:nth-child(3),
+        #usersTable td:nth-child(3),
+        #usersTable th:nth-child(4),
+        #usersTable td:nth-child(4),
+        #usersTable th:nth-child(5),
+        #usersTable td:nth-child(5) {
+            width: 15%; /* Adjust as needed */
+            max-width: 15%; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #usersTable th:nth-child(6),
+        #usersTable td:nth-child(6) {
+            width: 10%; /* Adjust as needed */
+            max-width: 10%; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Users</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-4 mb-4"><center>Users List</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Employee ID</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.emp_id }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.password }}</td>
-                    <td>
-                        <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <form method="post" action="{{ url_for('delete_user', id=user.id) }}" style="display: inline-block;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+          <!-- Navigation Bar -->
+          <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand" href="#">
+                    <img src="../../images/image.png" alt="Logo" width="50" height="50">
+                </a>
+            </div>
+        </nav>
+    <!-- Users table -->
+    <div class="container mt-5">
+        <h2>Show Users</h2>
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>User Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{ user.emp_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone_no }}</td>
+                        <td>{{ user.user_type }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="post" action="{{ url_for('delete_user', id=user.id) }}" style="display: inline-block;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <br><br>
 
-    <!-- Bootstrap JS and jQuery (if needed) -->
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+    </footer>
+
+    <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable();
+        });
+    </script>
+    <!-- JavaScript to dynamically position footer -->
+    <script>
+        function adjustFooterPosition() {
+            const body = document.body;
+            const footer = document.querySelector('footer');
+            const footerHeight = footer.offsetHeight;
+            const bodyHeight = body.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+            }
+        }
+
+        window.addEventListener('load', adjustFooterPosition);
+        window.addEventListener('resize', adjustFooterPosition);
+    </script>
+
 </body>
 </html>
