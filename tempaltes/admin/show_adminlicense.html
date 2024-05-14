@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Licenses</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         body {
             background-color: #f8f8f8;
+        }
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-brand {
+            color: #fff;
         }
         .container {
             margin-top: 50px;
@@ -21,6 +21,15 @@
             background-color: #17a2b8;
             color: #fff;
         }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
         .btn-custom:hover {
             background-color: #138496;
         }
@@ -29,9 +38,33 @@
             color: #fff;
             border-color: #218838;
         }
+        footer {
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
     </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Licenses</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
+      <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="../../images/image.png" alt="Logo" width="50" height="50">
+            </a>
+        </div>
+    </nav>
     <!-- Display Flash Messages -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -48,7 +81,7 @@
         <h2 class="text-center mb-4">Licenses Available</h2>
         
         {% if licenses %}
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="licensesTable">
                 <thead>
                     <tr>
                         <th>License ID</th>
@@ -63,6 +96,7 @@
                         <th>Purchase Date</th>
                         <th>Renew Date</th>
                         <th>Renew Cost</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,6 +126,42 @@
             <p class="text-center">No licenses found.</p>
         {% endif %}
     </div>
+    <!-- Copyright Footer -->
+    <footer>
+        <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+        </footer>
+  
+    
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#licensesTable').DataTable();
+        });
+    </script>
+    <!-- JavaScript to dynamically position footer -->
+<script>
+    function adjustFooterPosition() {
+        const body = document.body;
+        const footer = document.querySelector('footer');
+        const footerHeight = footer.offsetHeight;
+        const bodyHeight = body.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        if (bodyHeight < windowHeight) {
+            footer.style.position = 'fixed';
+            footer.style.bottom = '0';
+        } else {
+            footer.style.position = 'relative';
+        }
+    }
+
+    window.addEventListener('load', adjustFooterPosition);
+    window.addEventListener('resize', adjustFooterPosition);
+</script>
+
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
