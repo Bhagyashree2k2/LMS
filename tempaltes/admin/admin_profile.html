@@ -4,6 +4,21 @@
     <title>Admin Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-brand {
+            color: #fff;
+        }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -51,9 +66,19 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
+        
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="../../images/image.png" alt="Logo" width="50" height="50">
+            </a>
+        </div>
+    </nav>
     <div class="container">
         <h1>Admin Profile</h1>
         <form method="POST">
@@ -70,5 +95,32 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
+    <div id="footer-placeholder"></div>
+
+    <!-- Copyright Footer -->
+    <footer>
+        <p>© 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript to dynamically position footer -->
+    <script>
+        function adjustFooterPosition() {
+            const body = document.body;
+            const footer = document.querySelector('footer');
+            const footerHeight = footer.offsetHeight;
+            const bodyHeight = body.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+            }
+        }
+
+        window.addEventListener('load', adjustFooterPosition);
+        window.addEventListener('resize', adjustFooterPosition);
+    </script>
 </body>
 </html>
