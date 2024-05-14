@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        footer {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -36,11 +47,11 @@
                     <div class="panel-body" style="padding: 20px;">
                         <form method="POST">
                             <div class="form-group">
-                                <label for="email">Email:</label>
+                                <label for="email">Email</label>
                                 <input type="text" name="email" class="form-control" id="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="passw">Password:</label>
+                                <label for="passw">Password</label>
                                 <input type="password" name="passw" class="form-control" id="passw" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block" style="background-color: #836FFF;">Login</button>
@@ -50,6 +61,31 @@
             </div>
         </div>
     </div>
+<!-- Copyright Footer -->
+<footer>
+    <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+   
+    </footer>
+<!-- JavaScript to dynamically position footer -->
+<script>
+    function adjustFooterPosition() {
+        const body = document.body;
+        const footer = document.querySelector('footer');
+        const footerHeight = footer.offsetHeight;
+        const bodyHeight = body.offsetHeight;
+        const windowHeight = window.innerHeight;
+        
+        if (bodyHeight < windowHeight) {
+            footer.style.position = 'fixed';
+            footer.style.bottom = '0';
+        } else {
+            footer.style.position = 'relative';
+        }
+    }
+
+    window.addEventListener('load', adjustFooterPosition);
+    window.addEventListener('resize', adjustFooterPosition);
+</script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

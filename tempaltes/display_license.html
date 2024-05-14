@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-brand {
+            color: #fff;
+        }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Licenses</title>
@@ -9,36 +26,34 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-   
-    <style>
-        body {
-            background-color: #f8f8f8;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .table {
-            margin-top: 20px;
-        }
-        .btn-custom {
-            background-color: #17a2b8;
-            color: #fff;
-        }
-        .btn-custom:hover {
-            background-color: #138496;
-        }
-        .alert-custom {
-            background-color: #28a745;
-            color: #fff;
-            border-color: #218838;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
- 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
- 
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="../../images/image.png" alt="Logo" width="50" height="50">
+        </a>
+         <!-- Dropdown for Logout and Edit Profile -->
+         <div class="dropdown ml-auto">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{username}}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{url_for('admin_profile')}}">Edit Profile</a>
+                <a class="dropdown-item" href="{{ url_for('logout_admin') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+    </nav>
+
 <div class="container">
+    <br>
+    <br>
     <h2 class="text-center mb-4">Hello {{ username }}</h2>
     <!-- Filtering form -->
     <form id="filterForm">
@@ -83,7 +98,7 @@
                         </div>
                     </div>
                 </th>
-               
+
                 <th>
                     License Model
                     <div class="dropdown">
@@ -115,19 +130,46 @@
                 </tr>
             {% endfor %}
             </tbody>
- 
+
         </table>
-       
+
     </form>
 </div>
- 
-<!-- Bootstrap JS and Popper.js -->
 
-<!-- Logo -->
-<div style="position: absolute; top: 20px; left: 20px;">
-    <img src="logo.jpg" alt="Logo" width="100" height="100">
-</div>
- 
+<!-- Bootstrap JS and Popper.js -->
+<!-- Footer Placeholder -->
+<div id="footer-placeholder"></div>
+
+<!-- Copyright Footer -->
+<br>
+<br>
+<footer>
+    <p><center>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</center></p>
+    
+</footer>
+
+<!-- JavaScript to dynamically position footer -->
+<script>
+    function adjustFooterPosition() {
+        const body = document.body;
+        const footer = document.querySelector('footer');
+        const footerHeight = footer.offsetHeight;
+        const bodyHeight = body.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        if (bodyHeight < windowHeight) {
+            footer.style.position = 'fixed';
+            footer.style.bottom = '0';
+        } else {
+            footer.style.position = 'relative';
+        }
+    }
+
+    window.addEventListener('load', adjustFooterPosition);
+    window.addEventListener('resize', adjustFooterPosition);
+</script>
+
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -137,118 +179,15 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-   
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
 <script>
-    function downloadPDF() {
-        var doc = new jsPDF();
- 
-        var specialElementHandlers = {
-            '#downloadPDF': function(element, renderer){
-                return true;
-            },
-            '.controls': function(element, renderer){
-                return true;
-            }
-        };
- 
-        doc.fromHTML($('.zima').get(0), 15, 15, {
-            'width': 170,
-            'elementHandlers': specialElementHandlers
-        });
- 
-        doc.save('Generated.pdf');
-    }
- 
-    function applyFilterVendor() {
-        var selectedVendor = document.getElementById("vendorSelect").value;
-        var table = document.getElementById("licensesTable");
-        var rows = table.getElementsByTagName("tr");
- 
-        for (var i = 1; i < rows.length; i++) {
-            var vendorCell = rows[i].getElementsByTagName("td")[3];
-            var vendor = vendorCell.textContent.trim();
-            var vendorCondition = selectedVendor === "" || vendor === selectedVendor;
- 
-            if (vendorCondition) {
-                rows[i].style.display = ""; // Display the row
-            } else {
-                rows[i].style.display = "none"; // Hide the row
-            }
-        }
-    }
- 
-    function toggleVendorDropdown() {
-        var dropdown = document.getElementById("vendorDropdown");
-        if (dropdown.classList.contains("show")) {
-            dropdown.classList.remove("show");
-        } else {
-            dropdown.classList.add("show");
-        }
-    }
- 
-    function applyFilterType() {
-        var selectedLicenseType = document.getElementById("license_type").value;
-        var table = document.getElementById("licensesTable");
-        var rows = table.getElementsByTagName("tr");
- 
-        for (var i = 1; i < rows.length; i++) {
-            var licenseTypeCell = rows[i].getElementsByTagName("td")[4];
-            var licenseType = licenseTypeCell.textContent.trim();
-            var licenseTypeCondition = selectedLicenseType === "" || licenseType === selectedLicenseType;
- 
-            if (licenseTypeCondition) {
-                rows[i].style.display = ""; // Display the row
-            } else {
-                rows[i].style.display = "none"; // Hide the row
-            }
-        }
-    }
- 
-    function sortPrice() {
-        var minPrice = parseFloat(document.getElementById("minPrice").value) || 0;
-        var maxPrice = parseFloat(document.getElementById("maxPrice").value) || Number.MAX_VALUE;
-        var table = document.getElementById("licensesTable");
-        var rows = table.getElementsByTagName("tr");
- 
-        for (var i = 1; i < rows.length; i++) {
-            var priceCell = rows[i].getElementsByTagName("td")[2];
-            var price = parseFloat(priceCell.textContent);
- 
-            if (price >= minPrice && price <= maxPrice) {
-                rows[i].style.display = ""; // Display the row
-            } else {
-                rows[i].style.display = "none"; // Hide the row
-            }
-        }
-    }
- 
-    function applyFilterLicenseModel() {
-        var selectedLicenseModel = document.getElementById("licenseModelSelect").value;
-        var table = document.getElementById("licensesTable");
-        var rows = table.getElementsByTagName("tr");
-   
-        for (var i = 1; i < rows.length; i++) {
-            var licenseModelCell = rows[i].getElementsByTagName("td")[4]; // Assuming license model is in the fifth column
-            var licenseModel = licenseModelCell.textContent.trim();
-            var licenseModelCondition = selectedLicenseModel === "" || licenseModel === selectedLicenseModel;
-   
-            if (licenseModelCondition) {
-                rows[i].style.display = ""; // Display the row
-            } else {
-                rows[i].style.display = "none"; // Hide the row
-            }
-        }
-    }
-   
-    function toggleLicenseModelDropdown() {
-        var dropdown = document.getElementById("licenseModelDropdown");
-        if (dropdown.classList.contains("show")) {
-            dropdown.classList.remove("show");
-        } else {
-            dropdown.classList.add("show");
-        }
-    }
-   
+    $(document).ready(function() {
+        $('#licensesTable').DataTable();
+    });
 </script>
+
 </body>
 </html>

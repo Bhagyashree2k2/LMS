@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +9,27 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Add any additional styles or scripts as needed -->
     <style>
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-brand {
+            color: #fff;
+        }
         body {
             background-color: #f8f9fa;
-            padding: 40px;
+            padding-top: 60px; /* Adjust padding to accommodate fixed navbar */
+            padding-bottom: 80px; /* Adjust padding to accommodate fixed footer */
+            position: relative; /* Make body relative to position footer */
+            min-height: 100vh; /* Set minimum height to full viewport height */
+        }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
         form {
             max-width: 400px;
@@ -36,9 +53,18 @@
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="../../images/image.png" alt="Logo" width="50" height="50">
+            </a>
+        </div>
+    </nav>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-6"> <br><br>
                 <h2 class="text-center mb-4">Create License</h2>
                 
                 <!-- Display Flash Messages -->
@@ -119,13 +145,17 @@
                    
                     
                     <!-- Add other form fields as needed -->
+                   
                     <button type="submit" class="btn btn-primary btn-block">Create License</button>
                 </form>
             </div>
         </div>
     </div>
-
-    
+    <!-- Footer -->
+    <br><br>
+    <footer>
+        <p>© 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
+    </footer>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -180,7 +210,27 @@
                 // Call the function initially to set the initial visibility state
                 toggleRenewCostField();
             </script>
+
+            <!-- JavaScript to dynamically position footer -->
+    <script>
+        function adjustFooterPosition() {
+            const body = document.body;
+            const footer = document.querySelector('footer');
+            const footerHeight = footer.offsetHeight;
+            const bodyHeight = body.offsetHeight;
+            const windowHeight = window.innerHeight;
             
-            
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'absolute'; /* Change position to absolute */
+                footer.style.bottom = 'auto'; /* Reset bottom to auto */
+            }
+        }
+
+        window.addEventListener('load', adjustFooterPosition);
+        window.addEventListener('resize', adjustFooterPosition);
+    </script>
 </body>
 </html>

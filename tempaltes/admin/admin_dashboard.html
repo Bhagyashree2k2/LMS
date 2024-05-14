@@ -12,13 +12,13 @@
             background-color: #f8f8f8;
         }
         .navbar {
-            background-color: #872341;
+            background-color: #000;
         }
         .navbar-brand {
             color: #fff;
         }
         h2{
-            color: #872341;
+            color: #000;
         }
         .dropdown-menu {
             background-color: #FF90C2;
@@ -45,13 +45,16 @@
             border: none;
         }
         footer {
-            background-color: #6c757d;
+            background-color: #000;
             color: #fff;
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
             position: absolute;
             bottom: 0;
             width: 100%;
+        }
+        img {
+            ../../images/logo.png
         }
     </style>
 </head>
@@ -61,8 +64,45 @@
         <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand" href="#">
-                <img src="logo.png" alt="Logo" width="50" height="50">
+                <img src="../../images/image.png" alt="Logo" width="50" height="50">
             </a>
+
+            <!--added code -->
+            
+                
+                    <!-- Option Menus -->
+                    <div class="d-flex justify-content-between">
+                        <div class="dropdown">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="vendorManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Vendor Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="vendorManagementDropdown">
+                                <a class="dropdown-item" href="{{ url_for('register_vendor') }}">Register Vendor</a>
+                                <a class="dropdown-item" href="{{ url_for('show_vendor',) }}">Show Vendors</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="licenseManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                License Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="licenseManagementDropdown">
+                                <a class="dropdown-item" href="{{ url_for('create_license') }}">Create License</a>
+                                <a class="dropdown-item" href="{{ url_for('show_adminlicense') }}">Display License</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="userManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                User Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userManagementDropdown">
+                                <a class="dropdown-item" href="{{ url_for('register') }}">Add User</a>
+                                <a class="dropdown-item" href="{{ url_for('display_user') }}">Display Users</a>
+                            </div>
+                        </div>
+
+                        
 
             <!-- Dropdown for Logout and Edit Profile -->
             <div class="dropdown ml-auto">
@@ -90,53 +130,8 @@
                     </div>
                 {% endif %}
             {% endwith %}
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Option Menus -->
-                        <div class="d-flex justify-content-between">
-                            <div class="dropdown">
-                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="vendorManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Vendor Management
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="vendorManagementDropdown">
-                                    <a class="dropdown-item" href="{{ url_for('register_vendor') }}">Register Vendor</a>
-                                    <a class="dropdown-item" href="{{ url_for('show_vendor',) }}">Show Vendors</a>
-                                </div>
-                            </div>
-
-                            <div class="dropdown">
-                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="licenseManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    License Management
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="licenseManagementDropdown">
-                                    <a class="dropdown-item" href="{{ url_for('create_license') }}">Create License</a>
-                                    <a class="dropdown-item" href="{{ url_for('show_adminlicense') }}">Display License</a>
-                                </div>
-                            </div>
-
-                            <div class="dropdown">
-                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="userManagementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    User Management
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="userManagementDropdown">
-                                    <a class="dropdown-item" href="{{ url_for('register') }}">Add User</a>
-                                    <a class="dropdown-item" href="{{ url_for('display_user') }}">Display Users</a>
-                                </div>
-                            </div>
-
-                            <div class="dropdown">
-                                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Reports
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="reportsDropdown">
-                                    <a class="dropdown-item" href="#">View Reports</a>
-                                    <a class="dropdown-item" href="#">Upcoming Renewal</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                
+               
         </div>
     </div>
 
@@ -163,8 +158,6 @@
     <!-- Copyright Footer -->
     <footer>
         <p>&copy; 2024 Mercedes-Benz Research and Development India Pvt. Ltd. All rights reserved.</p>
-        <p>This website is for internal use only and is subject to the terms of service and license agreements.</p>
         </footer>
 </body>
 </html>
-
